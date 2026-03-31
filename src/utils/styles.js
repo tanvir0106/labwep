@@ -1,0 +1,9 @@
+export const inputCls = 'form-input w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-[0.95rem] text-gray-900 bg-gray-50 border border-gray-200 rounded-lg transition-all duration-200 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:bg-white';
+export const textareaCls = 'form-textarea w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-[0.95rem] text-gray-900 bg-gray-50 border border-gray-200 rounded-lg transition-all duration-200 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:bg-white resize-vertical min-h-[110px]';
+export const labelCls = 'text-sm font-medium text-gray-900';
+export const btnPrimary = 'inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 bg-indigo-600 hover:bg-indigo-700 active:translate-y-px text-white font-semibold text-sm sm:text-[0.95rem] rounded-lg border-none cursor-pointer transition-all duration-200 no-underline';
+export const btnSmall = 'inline-flex items-center gap-1 px-2 py-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-[0.7rem] rounded-lg border-none cursor-pointer transition-all duration-200';
+export const btnGray = 'inline-flex items-center gap-1 px-2 py-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold text-[0.7rem] rounded-lg border-none cursor-pointer transition-all duration-200';
+export const btnBlue = 'inline-flex items-center gap-1 px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold text-[0.8rem] rounded-lg border-none cursor-pointer transition-all duration-200';
+export const sectionCls = 'bg-white border border-gray-200 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 shadow-sm transition-all duration-200 hover:shadow-md hover:border-indigo-500';
+export const sectionH2 = 'text-lg sm:text-xl font-semibold mb-4 sm:mb-5 flex items-center gap-2 text-gray-900';
