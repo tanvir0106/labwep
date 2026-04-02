@@ -63,10 +63,28 @@ const ExamplesSection = ({
               <div className="flex flex-col gap-2">
                 <label className="text-xs font-medium text-gray-700">Code Theme</label>
                 <select className={inputCls} value={example.theme} onChange={(e) => handleExampleFieldChange(idx, 'theme', e.target.value)}>
-                  <option value="one-dark">One Dark (Image Match)</option>
-                  <option value="vscode-dark">VS Code (Dark)</option>
-                  <option value="vscode-light">VS Code (Light)</option>
-                  <option value="r-studio">R Studio</option>
+                  {example.language === 'r' ? (
+                    <>
+                      <option value="r-studio">R Studio (Classic)</option>
+                      <option value="solarized-light">Solarized Light</option>
+                      <option value="nord">Nord (Arctic Dark)</option>
+                      <option value="dracula">Dracula (Dark)</option>
+                      <option value="classic-prism">Classic Prism (Light)</option>
+                    </>
+                  ) : (
+                    <>
+                      <option value="one-dark">One Dark (Image Match)</option>
+                      <option value="vscode-dark">VS Code (Dark)</option>
+                      <option value="vscode-light">VS Code (Light)</option>
+                      <option value="material-dark">Material Dark</option>
+                      <option value="atom-dark">Atom Dark</option>
+                      <option value="night-owl">Night Owl (Dark)</option>
+                      <option value="shades-of-purple">Shades of Purple</option>
+                      <option value="synthwave84">Synthwave '84</option>
+                      <option value="dracula">Dracula (Dark)</option>
+                      <option value="nord">Nord (Arctic Dark)</option>
+                    </>
+                  )}
                 </select>
               </div>
 

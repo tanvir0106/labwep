@@ -9,7 +9,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center gap-2">
             <FlaskConical className="text-indigo-600 h-6 w-6" />
-            <span className="font-bold text-xl tracking-tight text-gray-900">LabGen</span>
+            <span className="font-bold text-xl tracking-tight text-gray-900">labwep</span>
           </div>
           
           <div className="flex items-center space-x-4">

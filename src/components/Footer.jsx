@@ -95,7 +95,7 @@ const Footer = ({ isExpanded = false }) => {
              <img src={tanvirImg} alt="Tanvir Hassan" className="w-full h-full object-cover" />
            </div>
            <p className={`text-[10px] sm:text-xs text-indigo-300 transition-transform duration-500 ${isExpanded ? '-translate-x-9' : ''}`}>
-             © {new Date().getFullYear()} <span className="font-semibold text-indigo-100 ml-1 tracking-wide">GUB ADS LabGen</span>
+             © {new Date().getFullYear()} <span className="font-semibold text-indigo-100 ml-1 tracking-wide uppercase">labwep</span>
            </p>
          </div>
 

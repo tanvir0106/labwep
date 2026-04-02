@@ -1,6 +1,6 @@
 import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus, coy, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { vscDarkPlus, coy, oneDark, dracula, nord, nightOwl, shadesOfPurple, synthwave84, materialDark, atomDark, solarizedlight, prism } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import gub_logo from '../assets/GUBLogo.png';
 
 const getThemeStyles = (themeName) => {
@@ -11,6 +11,24 @@ const getThemeStyles = (themeName) => {
       return { bg: '#f9f9f9', color: '#333333', border: '#dddddd', headColor: '#005cc5', highlighter: coy };
     case 'r-studio':
       return { bg: '#ffffff', color: '#333333', border: '#e0e0e0', headColor: '#2b5797', highlighter: coy };
+    case 'dracula':
+      return { bg: '#282a36', color: '#f8f8f2', border: '#44475a', headColor: '#bd93f9', highlighter: dracula };
+    case 'nord':
+      return { bg: '#2e3440', color: '#d8dee9', border: '#4c566a', headColor: '#88c0d0', highlighter: nord };
+    case 'night-owl':
+      return { bg: '#011627', color: '#d6deeb', border: '#1d3b53', headColor: '#addb67', highlighter: nightOwl };
+    case 'shades-of-purple':
+      return { bg: '#2d2b55', color: '#ffffff', border: '#4a4a8a', headColor: '#9dff65', highlighter: shadesOfPurple };
+    case 'synthwave84':
+      return { bg: '#262335', color: '#36f9f6', border: '#4d4d4d', headColor: '#ff7edb', highlighter: synthwave84 };
+    case 'material-dark':
+      return { bg: '#263238', color: '#eeffff', border: '#37474f', headColor: '#80cbc4', highlighter: materialDark };
+    case 'atom-dark':
+      return { bg: '#1d1f21', color: '#c5c8c6', border: '#373b41', headColor: '#81a2be', highlighter: atomDark };
+    case 'solarized-light':
+      return { bg: '#fdf6e3', color: '#657b83', border: '#eee8d5', headColor: '#268bd2', highlighter: solarizedlight };
+    case 'classic-prism':
+      return { bg: '#f5f2f0', color: '#000000', border: '#e0e0e0', headColor: '#0077aa', highlighter: prism };
     case 'vscode-dark':
     default:
       return { bg: '#1e1e1e', color: '#d4d4d4', border: '#333333', headColor: '#569cd6', highlighter: vscDarkPlus };
@@ -207,7 +225,7 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
                     {example.outputImage && (
                       <div style={{ marginTop: '10px', textAlign: 'center' }}>
                         <h4 style={{ fontSize: '12px', fontWeight: 'bold', marginBottom: '4px', textAlign: 'left' }}>Output:</h4>
-                        <img src={example.outputImage} alt="Output" style={{ maxWidth: '70%', height: 'auto', border: '1px solid #ddd' }} />
+                        <img src={example.outputImage} alt="Output" style={{ maxWidth: '85%', height: 'auto', border: '1px solid #ddd', display: 'block', margin: '10px auto' }} />
                       </div>
                     )}
                   </>

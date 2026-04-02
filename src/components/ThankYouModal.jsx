@@ -47,7 +47,7 @@ const ThankYouModal = ({ isOpen, onClose }) => {
         
         <h2 className="text-2xl font-extrabold text-gray-900 mb-1">Thank You!</h2>
         <p className="text-gray-500 text-sm mb-6 leading-relaxed px-2">
-          I truly appreciate you using my Lab Report Generator. Let's stay connected!
+          I truly appreciate you using labwep. Let's stay connected!
         </p>
 
         {/* Social Links Row */}

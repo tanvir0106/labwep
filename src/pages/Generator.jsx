@@ -9,6 +9,7 @@ import ExamplesSection from '../components/form/ExamplesSection';
 import ConclusionSection from '../components/form/ConclusionSection';
 import HTMLReportTemplate from '../components/HTMLReportTemplate';
 import ThankYouModal from '../components/ThankYouModal';
+import BackgroundEffect from '../components/BackgroundEffect';
 import { btnPrimary } from '../utils/styles';
 
 const Generator = () => {
@@ -108,6 +109,21 @@ const Generator = () => {
 
   const handleExampleFieldChange = (index, field, value) => {
     const newExamples = [...formData.examples];
+    
+    // Auto-update theme when language changes to match the new language's defaults
+    if (field === 'language') {
+      const newLang = value;
+      const currentTheme = newExamples[index].theme;
+      const rThemes = ['r-studio', 'solarized-light', 'nord', 'dracula', 'classic-prism'];
+      const pyThemes = ['one-dark', 'vscode-dark', 'vscode-light', 'material-dark', 'atom-dark', 'night-owl', 'shades-of-purple', 'synthwave84', 'dracula', 'nord'];
+      
+      if (newLang === 'r' && !rThemes.includes(currentTheme)) {
+        newExamples[index].theme = 'r-studio';
+      } else if (newLang === 'python' && !pyThemes.includes(currentTheme)) {
+        newExamples[index].theme = 'vscode-dark';
+      }
+    }
+
     newExamples[index][field] = value;
     setFormData(prev => ({ ...prev, examples: newExamples }));
   };
@@ -196,7 +212,7 @@ const Generator = () => {
       const studentId = formData.students[0]?.id || 'Student';
       const opt = {
         margin:       [0, 0],
-        filename:     `Lab_Report_${formData.reportNo}_${studentId}.pdf`,
+        filename:     `${studentId}__${formData.courseCode}_lab${formData.reportNo}.pdf`,
         image:        { type: 'jpeg', quality: 0.98 },
         enableLinks:  true,
         html2canvas:  { scale: 2, useCORS: true, logging: false },
@@ -211,27 +227,29 @@ const Generator = () => {
   };
 
   const formContent = (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto relative z-10">
       <header className="mb-6 sm:mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 mb-1 sm:mb-2">Lab Report Generator</h1>
-        <p className="text-gray-500 text-sm sm:text-base">Fill in the details to generate your GUB LaTeX-styled Lab Report PDF.</p>
+        <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2 uppercase text-gradient">labwep</h1>
+        <p className="text-slate-400 text-sm sm:text-base font-medium">Fill in the details to generate your GUB LaTeX-styled Lab Report PDF.</p>
       </header>
 
-      <form onSubmit={(e) => e.preventDefault()}>
-        <UniversityInfo formData={formData} handleChange={handleChange} />
-        <LabDetails formData={formData} handleChange={handleChange} handleStudentChange={handleStudentChange} addStudent={addStudent} removeStudent={removeStudent} />
-        <ContentSections formData={formData} handleChange={handleChange} />
-        <ExamplesSection 
-          formData={formData} addCodeExample={addCodeExample} addTableExample={addTableExample}
-          removeExample={removeExample} handleExampleFieldChange={handleExampleFieldChange}
-          addNestedCodeBlock={addNestedCodeBlock} removeNestedCodeBlock={removeNestedCodeBlock}
-          handleNestedCodeChange={handleNestedCodeChange} handleImageUpload={handleImageUpload}
-          removeImage={removeImage} addTableColumn={addTableColumn} removeTableColumn={removeTableColumn}
-          addTableRow={addTableRow} removeTableRow={removeTableRow} handleTableHeadChange={handleTableHeadChange}
-          handleTableCellChange={handleTableCellChange}
-        />
-        <ConclusionSection formData={formData} handleChange={handleChange} />
-      </form>
+      <div className="glass-card p-4 sm:p-8 rounded-3xl overflow-hidden mb-8">
+        <form onSubmit={(e) => e.preventDefault()}>
+          <UniversityInfo formData={formData} handleChange={handleChange} />
+          <LabDetails formData={formData} handleChange={handleChange} handleStudentChange={handleStudentChange} addStudent={addStudent} removeStudent={removeStudent} />
+          <ContentSections formData={formData} handleChange={handleChange} />
+          <ExamplesSection 
+            formData={formData} addCodeExample={addCodeExample} addTableExample={addTableExample}
+            removeExample={removeExample} handleExampleFieldChange={handleExampleFieldChange}
+            addNestedCodeBlock={addNestedCodeBlock} removeNestedCodeBlock={removeNestedCodeBlock}
+            handleNestedCodeChange={handleNestedCodeChange} handleImageUpload={handleImageUpload}
+            removeImage={removeImage} addTableColumn={addTableColumn} removeTableColumn={removeTableColumn}
+            addTableRow={addTableRow} removeTableRow={removeTableRow} handleTableHeadChange={handleTableHeadChange}
+            handleTableCellChange={handleTableCellChange}
+          />
+          <ConclusionSection formData={formData} handleChange={handleChange} />
+        </form>
+      </div>
     </div>
   );
 
@@ -272,7 +290,9 @@ const Generator = () => {
   );
 
   return (
-    <div className="flex flex-col flex-1 overflow-hidden font-sans relative w-full h-full">
+    <div className="flex flex-col flex-1 overflow-hidden font-sans relative w-full h-full bg-mesh-gradient">
+      <BackgroundEffect />
+
       {/* Mobile Header Tabs */}
       <div className="lg:hidden flex-shrink-0 flex items-center justify-between bg-white border-b border-gray-200 px-4 py-2 shadow-sm z-20">
         <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
@@ -294,7 +314,7 @@ const Generator = () => {
 
       <div className="flex flex-1 overflow-hidden min-h-0 w-full">
         {/* Form Container */}
-        <div className={`flex-1 overflow-y-auto p-4 sm:p-8 bg-gray-50 border-r border-gray-200 min-h-0 ${mobileTab === 'form' ? 'block' : 'hidden lg:block lg:max-w-[50%]'}`}>
+        <div className={`flex-1 overflow-y-auto p-4 sm:p-8 border-r border-white/5 min-h-0 relative z-10 ${mobileTab === 'form' ? 'block' : 'hidden lg:block lg:max-w-[50%]'}`}>
           {formContent}
         </div>
 
