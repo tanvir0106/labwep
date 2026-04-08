@@ -38,4 +38,38 @@
   .form-textarea:focus {
     @apply outline-none border-indigo-500 ring-2 ring-indigo-500/20 bg-white;
   }
+
+  /* Quill Overrides */
+  .quill-wrapper .ql-toolbar {
+    @apply border-0 border-b border-gray-200 bg-gray-50 rounded-t-lg font-sans;
+  }
+  .quill-wrapper .ql-container {
+    @apply border-0 min-h-[120px] text-[0.85rem] font-sans;
+  }
+  .quill-wrapper .ql-editor {
+    @apply min-h-[120px];
+  }
+
+  /* PDF Rich Text Content Styling */
+  .rich-text-content ul {
+    @apply list-disc pl-5 mb-2;
+  }
+  .rich-text-content ol {
+    @apply list-decimal pl-5 mb-2;
+  }
+  .rich-text-content p {
+    @apply mb-2;
+  }
+  .rich-text-content strong {
+    @apply font-bold;
+  }
+  .rich-text-content em {
+    @apply italic;
+  }
+  .rich-text-content h1, .rich-text-content h2, .rich-text-content h3 {
+    @apply font-bold mt-2 mb-1;
+  }
+  .rich-text-content a {
+    @apply text-blue-600 underline;
+  }
 }

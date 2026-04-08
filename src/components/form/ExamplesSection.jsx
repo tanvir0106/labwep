@@ -1,11 +1,13 @@
 import React from 'react';
 import { Code, Plus, Trash2 } from 'lucide-react';
 import { sectionCls, sectionH2, btnSmall, btnBlue, btnGray, inputCls } from '../../utils/styles';
+import RichTextEditor from '../RichTextEditor';
 
 const ExamplesSection = ({
   formData,
   addCodeExample,
   addTableExample,
+  addDocumentExample,
   removeExample,
   handleExampleFieldChange,
   addNestedCodeBlock,
@@ -31,6 +33,9 @@ const ExamplesSection = ({
           <button type="button" onClick={addTableExample} className={btnBlue}>
             <Plus size={14} /> Add Table
           </button>
+          <button type="button" onClick={addDocumentExample} className={btnGray}>
+            <Plus size={14} /> Add Document
+          </button>
         </div>
       </div>
 
@@ -39,7 +44,7 @@ const ExamplesSection = ({
           {/* Example header row */}
           <div className="flex justify-between mb-2">
             <label className="text-sm sm:text-base font-bold text-gray-900">
-              Example {idx + 1} : {example.type === 'code' ? 'Code Block' : 'Table'}
+              Example {idx + 1} : {example.type === 'code' ? 'Code Block' : example.type === 'table' ? 'Table' : 'Document Block'}
             </label>
             <button type="button" onClick={() => removeExample(idx)} className="bg-transparent border-none text-red-500 cursor-pointer">
               <Trash2 size={18} />
@@ -51,40 +56,44 @@ const ExamplesSection = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="flex flex-col gap-2 sm:col-span-2">
                 <label className="text-xs font-medium text-gray-700">Title</label>
-                <input type="text" className={inputCls} value={example.title} onChange={(e) => handleExampleFieldChange(idx, 'title', e.target.value)} placeholder="e.g. Write a Python class Account..." />
+                <input type="text" className={inputCls} value={example.title} onChange={(e) => handleExampleFieldChange(idx, 'title', e.target.value)} placeholder="e.g. Write a script to..." />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-xs font-medium text-gray-700">Language</label>
                 <select className={inputCls} value={example.language} onChange={(e) => handleExampleFieldChange(idx, 'language', e.target.value)}>
                   <option value="python">Python</option>
                   <option value="r">R Language</option>
+                  <option value="java">Java</option>
+                  <option value="cpp">C++</option>
+                  <option value="c">C</option>
+                  <option value="javascript">JavaScript</option>
+                  <option value="html">HTML</option>
+                  <option value="css">CSS</option>
+                  <option value="sql">SQL</option>
+                  <option value="bash">Bash</option>
                 </select>
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-xs font-medium text-gray-700">Code Theme</label>
                 <select className={inputCls} value={example.theme} onChange={(e) => handleExampleFieldChange(idx, 'theme', e.target.value)}>
-                  {example.language === 'r' ? (
-                    <>
-                      <option value="r-studio">R Studio (Classic)</option>
-                      <option value="solarized-light">Solarized Light</option>
-                      <option value="nord">Nord (Arctic Dark)</option>
-                      <option value="dracula">Dracula (Dark)</option>
-                      <option value="classic-prism">Classic Prism (Light)</option>
-                    </>
-                  ) : (
-                    <>
-                      <option value="one-dark">One Dark (Image Match)</option>
-                      <option value="vscode-dark">VS Code (Dark)</option>
-                      <option value="vscode-light">VS Code (Light)</option>
-                      <option value="material-dark">Material Dark</option>
-                      <option value="atom-dark">Atom Dark</option>
-                      <option value="night-owl">Night Owl (Dark)</option>
-                      <option value="shades-of-purple">Shades of Purple</option>
-                      <option value="synthwave84">Synthwave '84</option>
-                      <option value="dracula">Dracula (Dark)</option>
-                      <option value="nord">Nord (Arctic Dark)</option>
-                    </>
-                  )}
+                  <optgroup label="Dark Themes">
+                    <option value="vscode-dark">VS Code (Dark)</option>
+                    <option value="one-dark">One Dark</option>
+                    <option value="dracula">Dracula</option>
+                    <option value="nord">Nord</option>
+                    <option value="material-dark">Material Dark</option>
+                    <option value="atom-dark">Atom Dark</option>
+                    <option value="night-owl">Night Owl</option>
+                    <option value="shades-of-purple">Shades of Purple</option>
+                    <option value="synthwave84">Synthwave '84</option>
+                    <option value="okaidia">Okaidia</option>
+                  </optgroup>
+                  <optgroup label="Light Themes">
+                    <option value="vscode-light">VS Code (Light)</option>
+                    <option value="r-studio">R Studio (Classic)</option>
+                    <option value="solarized-light">Solarized Light</option>
+                    <option value="classic-prism">Classic Prism</option>
+                  </optgroup>
                 </select>
               </div>
 
@@ -196,6 +205,22 @@ const ExamplesSection = ({
                 ))}
               </div>
             </>
+          )}
+
+          {/* ── Document editor ── */}
+          {example.type === 'document' && (
+            <div className="flex flex-col gap-3 sm:gap-4 mt-2">
+              <div className="flex justify-between">
+                <input type="text" className={`${inputCls} font-bold`} value={example.title} onChange={(e) => handleExampleFieldChange(idx, 'title', e.target.value)} placeholder="Document Title" />
+              </div>
+              <div className="relative">
+                <RichTextEditor 
+                  value={example.content} 
+                  onChange={(val) => handleExampleFieldChange(idx, 'content', val)} 
+                  placeholder="Start writing your structured document here..."
+                />
+              </div>
+            </div>
           )}
         </div>
       ))}

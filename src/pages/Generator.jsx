@@ -103,6 +103,15 @@ const Generator = () => {
     }));
   };
 
+  const addDocumentExample = () => {
+    setFormData(prev => ({
+      ...prev,
+      examples: [...(prev.examples || []), {
+        type: 'document', title: 'New Document Block', content: ''
+      }]
+    }));
+  };
+
   const removeExample = (index) => {
     setFormData(prev => ({ ...prev, examples: prev.examples.filter((_, i) => i !== index) }));
   };
@@ -110,19 +119,8 @@ const Generator = () => {
   const handleExampleFieldChange = (index, field, value) => {
     const newExamples = [...formData.examples];
     
-    // Auto-update theme when language changes to match the new language's defaults
-    if (field === 'language') {
-      const newLang = value;
-      const currentTheme = newExamples[index].theme;
-      const rThemes = ['r-studio', 'solarized-light', 'nord', 'dracula', 'classic-prism'];
-      const pyThemes = ['one-dark', 'vscode-dark', 'vscode-light', 'material-dark', 'atom-dark', 'night-owl', 'shades-of-purple', 'synthwave84', 'dracula', 'nord'];
-      
-      if (newLang === 'r' && !rThemes.includes(currentTheme)) {
-        newExamples[index].theme = 'r-studio';
-      } else if (newLang === 'python' && !pyThemes.includes(currentTheme)) {
-        newExamples[index].theme = 'vscode-dark';
-      }
-    }
+    // All themes are now available for all languages, so we don't need to force a theme change
+    // when the user switches languages, allowing them to keep their preferred theme.
 
     newExamples[index][field] = value;
     setFormData(prev => ({ ...prev, examples: newExamples }));
@@ -219,7 +217,27 @@ const Generator = () => {
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
-      html2pdf().set(opt).from(element).save().then(() => {
+      html2pdf().set(opt).from(element).toPdf().get('pdf').then((pdf) => {
+        const totalPages = pdf.internal.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+          pdf.setPage(i);
+          pdf.setFontSize(9);
+          pdf.setTextColor(160, 160, 160);
+          
+          const pageWidth = pdf.internal.pageSize.getWidth();
+          const pageHeight = pdf.internal.pageSize.getHeight();
+          
+          // Add branding on the left
+          const brandingText = 'Composed by labwep (labwep.vercel.app)';
+          pdf.text(brandingText, 20, pageHeight - 10);
+          // Make it clickable with an invisible link annotation over the exact text area
+          pdf.link(20, pageHeight - 13, 65, 5, { url: 'https://labwep.vercel.app/' });
+          
+          // Add page number on the right
+          const pageText = `Page ${i} of ${totalPages}`;
+          pdf.text(pageText, pageWidth - 40, pageHeight - 10);
+        }
+      }).save().then(() => {
         setIsGenerating(false);
         setShowModal(true);
       });
@@ -239,7 +257,7 @@ const Generator = () => {
           <LabDetails formData={formData} handleChange={handleChange} handleStudentChange={handleStudentChange} addStudent={addStudent} removeStudent={removeStudent} />
           <ContentSections formData={formData} handleChange={handleChange} />
           <ExamplesSection 
-            formData={formData} addCodeExample={addCodeExample} addTableExample={addTableExample}
+            formData={formData} addCodeExample={addCodeExample} addTableExample={addTableExample} addDocumentExample={addDocumentExample}
             removeExample={removeExample} handleExampleFieldChange={handleExampleFieldChange}
             addNestedCodeBlock={addNestedCodeBlock} removeNestedCodeBlock={removeNestedCodeBlock}
             handleNestedCodeChange={handleNestedCodeChange} handleImageUpload={handleImageUpload}
@@ -255,9 +273,10 @@ const Generator = () => {
 
   const downloadBtn = (
     <button onClick={handleDownloadPDF} disabled={isGenerating} className={`${btnPrimary} ${isGenerating ? 'opacity-70 cursor-wait' : ''}`}>
-      <Download size={16} /> {isGenerating ? 'Generating...' : 'Download'}
+      <Download size={16} /> {isGenerating ? 'Generating...' : 'Export PDF'}
     </button>
   );
+
 
   const previewPane = (
     <div className="flex-1 bg-[#525659] flex flex-col relative overflow-hidden min-h-0 h-full w-full">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus, coy, oneDark, dracula, nord, nightOwl, shadesOfPurple, synthwave84, materialDark, atomDark, solarizedlight, prism } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { vscDarkPlus, coy, oneDark, dracula, nord, nightOwl, shadesOfPurple, synthwave84, materialDark, atomDark, solarizedlight, prism, okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import gub_logo from '../assets/GUBLogo.png';
 
 const getThemeStyles = (themeName) => {
@@ -29,6 +29,8 @@ const getThemeStyles = (themeName) => {
       return { bg: '#fdf6e3', color: '#657b83', border: '#eee8d5', headColor: '#268bd2', highlighter: solarizedlight };
     case 'classic-prism':
       return { bg: '#f5f2f0', color: '#000000', border: '#e0e0e0', headColor: '#0077aa', highlighter: prism };
+    case 'okaidia':
+      return { bg: '#272822', color: '#f8f8f2', border: '#444444', headColor: '#a6e22e', highlighter: okaidia };
     case 'vscode-dark':
     default:
       return { bg: '#1e1e1e', color: '#d4d4d4', border: '#333333', headColor: '#569cd6', highlighter: vscDarkPlus };
@@ -146,14 +148,56 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
             </tr>
           </tbody>
         </table>
+      </div>
 
-        {/* Subtle Tiny Watermark for Title Page */}
-        <div style={{ position: 'absolute', bottom: '0.5cm', right: '1cm', fontSize: '7px', color: '#bbb', fontStyle: 'italic', opacity: '0.8' }}>
-          <a href="https://labwep.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>Composed by labwep</a>
+      <div className="html2pdf__page-break"></div>
+
+      {/* ── Table of Contents Page ── */}
+      <div className="flex flex-col" style={{ padding: '2.5cm 2cm 2.5cm 3cm', minHeight: '297mm', boxSizing: 'border-box', position: 'relative' }}>
+        <h2 style={{ fontSize: '18px', fontWeight: 'bold', textAlign: 'center', marginBottom: '30px', textTransform: 'uppercase', borderBottom: '2px solid #000', paddingBottom: '10px' }}>Table of Contents</h2>
+        
+        <div style={{ marginTop: '20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px', fontSize: '14px', fontWeight: 'bold' }}>
+            <span>Section Description</span>
+            <span>Page No.</span>
+          </div>
+          <hr style={{ border: 'none', borderTop: '1px solid #eee', marginBottom: '20px' }} />
+          
+          <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+            <li style={{ display: 'flex', alignItems: 'baseline', marginBottom: '12px', fontSize: '12.5px' }}>
+              <span style={{ fontWeight: 'bold' }}>1. Objectives</span>
+              <span style={{ flex: 1, borderBottom: '1px dotted #888', margin: '0 10px', height: '12px' }}></span>
+              <span>3</span>
+            </li>
+            <li style={{ display: 'flex', alignItems: 'baseline', marginBottom: '12px', fontSize: '12.5px' }}>
+              <span style={{ fontWeight: 'bold' }}>2. Introduction</span>
+              <span style={{ flex: 1, borderBottom: '1px dotted #888', margin: '0 10px' }}></span>
+              <span>3</span>
+            </li>
+            <li style={{ display: 'flex', alignItems: 'baseline', marginBottom: '8px', fontSize: '12.5px' }}>
+              <span style={{ fontWeight: 'bold' }}>3. Examples</span>
+              <span style={{ flex: 1, borderBottom: '1px dotted #888', margin: '0 10px' }}></span>
+              <span>3</span>
+            </li>
+            
+            {/* Nested example titles */}
+            {(data.examples || []).map((example, idx) => (
+              <li key={idx} style={{ display: 'flex', alignItems: 'baseline', marginBottom: '8px', marginLeft: '25px', fontSize: '11.5px', fontStyle: 'italic', color: '#444' }}>
+                <span>3.{idx + 1} {example.title || 'Example'}</span>
+                <span style={{ flex: 1, borderBottom: '1px dotted #bbb', margin: '0 10px' }}></span>
+                <span>-</span>
+              </li>
+            ))}
+
+            <li style={{ display: 'flex', alignItems: 'baseline', marginTop: '8px', marginBottom: '12px', fontSize: '12.5px' }}>
+              <span style={{ fontWeight: 'bold' }}>4. Conclusion</span>
+              <span style={{ flex: 1, borderBottom: '1px dotted #888', margin: '0 10px' }}></span>
+              <span>-</span>
+            </li>
+          </ul>
         </div>
       </div>
 
-      {/* html2pdf explicit page break */}
       <div className="html2pdf__page-break"></div>
 
       {/* ── Content Pages ── */}
@@ -162,20 +206,22 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
         {data.objectives && (
           <div style={{ marginBottom: '15px' }}>
             <h2 style={{ fontSize: '14px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>1. Objectives</h2>
-            <ul style={{ paddingLeft: '20px', fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6', margin: 0 }}>
-              {parseList(data.objectives).map((item, idx) => (
-                <li key={idx} style={{ marginBottom: '4px' }}>{item.replace(/^[-*•]\s*/, '')}</li>
-              ))}
-            </ul>
+            <div 
+              className="rich-text-content"
+              style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6' }}
+              dangerouslySetInnerHTML={{ __html: data.objectives }} 
+            />
           </div>
         )}
 
         {data.introduction && (
           <div style={{ marginBottom: '15px' }}>
             <h2 style={{ fontSize: '14px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px', marginTop: '15px' }}>2. Introduction</h2>
-            {data.introduction.split('\n').map((para, idx) => (
-              <p key={idx} style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6', marginBottom: '6px' }}>{para}</p>
-            ))}
+            <div 
+              className="rich-text-content"
+              style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6' }}
+              dangerouslySetInnerHTML={{ __html: data.introduction }} 
+            />
           </div>
         )}
 
@@ -193,19 +239,25 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
                 {example.type === 'code' && (
                   <>
                     {(example.codeBlocks || []).map((block, bIdx) => {
-                      const langAlias = example.language === 'r' ? 'r' : 'python';
                       const themeOptions = getThemeStyles(example.theme);
                       
+                      const langDisplayMap = {
+                        python: 'Python', r: 'R Language', java: 'Java', cpp: 'C++',
+                        c: 'C', javascript: 'JavaScript', sql: 'SQL', html: 'HTML',
+                        css: 'CSS', bash: 'Bash'
+                      };
+                      const langDisplay = langDisplayMap[example.language] || example.language;
+
                       return (
                         <div key={bIdx} style={{ backgroundColor: themeOptions.bg, color: themeOptions.color, border: `1px solid ${themeOptions.border}`, padding: '12px', borderRadius: '4px', marginBottom: '10px', fontSize: '10px', fontFamily: '"Courier New", Courier, monospace' }}>
                           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px', borderBottom: `1px solid ${themeOptions.border}`, paddingBottom: '6px' }}>
-                            <span style={{ fontWeight: 'bold', color: themeOptions.headColor }}>{'</> '} {example.language === 'python' ? 'Python' : 'R Language'}</span>
+                            <span style={{ fontWeight: 'bold', color: themeOptions.headColor }}>{'</> '} {langDisplay}</span>
                           </div>
                           {block.codeTitle && (
                             <div style={{ fontWeight: 'bold', marginBottom: '8px', color: themeOptions.headColor }}>{block.codeTitle}</div>
                           )}
                           <SyntaxHighlighter 
-                            language={langAlias} 
+                            language={example.language} 
                             style={themeOptions.highlighter}
                             customStyle={{ margin: 0, padding: 0, background: 'transparent', fontSize: '10px', overflowX: 'auto', whiteSpace: 'pre-wrap' }}
                             wrapLongLines={true}
@@ -254,25 +306,33 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
                     </table>
                   </div>
                 )}
+
+                {/* Document Type Details */}
+                {example.type === 'document' && (
+                  <div style={{ width: '100%', marginTop: '10px' }}>
+                    <div 
+                      className="rich-text-content"
+                      style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6' }}
+                      dangerouslySetInnerHTML={{ __html: example.content }}
+                    />
+                  </div>
+                )}
               </div>
             ))}
           </div>
         )}
 
-        {/* ── Conclusion Section ── */}
         {data.conclusion && (
           <div style={{ marginTop: '15px', pageBreakInside: 'avoid' }}>
             <h2 style={{ fontSize: '14px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>4. Conclusion</h2>
-            <p style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6' }}>{data.conclusion}</p>
+            <div 
+              className="rich-text-content"
+              style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6' }}
+              dangerouslySetInnerHTML={{ __html: data.conclusion }} 
+            />
           </div>
         )}
-
-        {/* Subtle Tiny Watermark for Content Page */}
-        <div style={{ marginTop: '20px', textAlign: 'right', fontSize: '7px', color: '#bbb', fontStyle: 'italic', opacity: '0.8' }}>
-          <a href="https://labwep.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>Composed by labwep</a>
-        </div>
       </div>
-
     </div>
   );
 });

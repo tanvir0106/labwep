@@ -51,18 +51,18 @@ const Home = () => {
         <div className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           <div data-aos="fade-up" data-aos-delay="100" className="glass-card p-8 rounded-3xl hover:-translate-y-2 transition-all duration-300">
             <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-400 mb-6 font-black text-xl border border-blue-500/30">1</div>
-            <h3 className="text-xl font-bold text-white mb-3 tracking-tight">Input Details</h3>
-            <p className="text-slate-400 leading-relaxed">Easily enter your university, course, and student details into intuitive form fields.</p>
+            <h3 className="text-xl font-bold text-#011627 mb-3 tracking-tight">Input Details</h3>
+            <p className="text-#011627 leading-relaxed">Easily enter your university, course, and student details into intuitive form fields.</p>
           </div>
           <div data-aos="fade-up" data-aos-delay="200" className="glass-card p-8 rounded-3xl hover:-translate-y-2 transition-all duration-300">
             <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center text-purple-400 mb-6 font-black text-xl border border-purple-500/30">2</div>
-            <h3 className="text-xl font-bold text-white mb-3 tracking-tight">Add Content</h3>
-            <p className="text-slate-400 leading-relaxed">Insert custom code snippets, dynamically sized tables, and robust explanations or images.</p>
+            <h3 className="text-xl font-bold text-#011627 mb-3 tracking-tight">Add Content</h3>
+            <p className="text-#011627 leading-relaxed">Insert custom code snippets, dynamically sized tables, and robust explanations or images.</p>
           </div>
           <div data-aos="fade-up" data-aos-delay="300" className="glass-card p-8 rounded-3xl hover:-translate-y-2 transition-all duration-300">
             <div className="w-12 h-12 bg-pink-500/20 rounded-xl flex items-center justify-center text-pink-400 mb-6 font-black text-xl border border-pink-500/30">3</div>
-            <h3 className="text-xl font-bold text-white mb-3 tracking-tight">Export PDF</h3>
-            <p className="text-slate-400 leading-relaxed">Download a pristine PDF matching professional university formatting guidelines instantly.</p>
+            <h3 className="text-xl font-bold text-#011627 mb-3 tracking-tight">Export PDF</h3>
+            <p className="text-#011627 leading-relaxed">Download a pristine PDF matching professional university formatting guidelines instantly.</p>
           </div>
         </div>
       </main>
