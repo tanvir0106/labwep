@@ -40,7 +40,7 @@ const ExamplesSection = ({
       </div>
 
       {(formData.examples || []).map((example, idx) => (
-        <div key={idx} className="p-3 sm:p-4 border border-gray-200 rounded-lg mb-4 bg-gray-50 overflow-x-auto">
+        <div key={idx} className="p-3 sm:p-4 border border-gray-200 rounded-lg mb-4 bg-gray-50 overflow-hidden">
           {/* Example header row */}
           <div className="flex justify-between mb-2">
             <label className="text-sm sm:text-base font-bold text-gray-900">
@@ -165,10 +165,11 @@ const ExamplesSection = ({
                 <button type="button" onClick={() => addTableRow(idx)} className={btnSmall}>+ Row</button>
               </div>
 
-              <div
-                className="grid gap-2 mb-2"
-                style={{ gridTemplateColumns: `repeat(${example.columns.length}, minmax(80px, 1fr))` }}
-              >
+              <div className="overflow-x-auto w-full">
+                <div
+                  className="grid gap-2 mb-2"
+                  style={{ gridTemplateColumns: `repeat(${example.columns.length}, minmax(80px, 1fr))` }}
+                >
                 {/* Column headers */}
                 {example.columns.map((col, cIdx) => (
                   <input
@@ -203,6 +204,7 @@ const ExamplesSection = ({
                     ))}
                   </React.Fragment>
                 ))}
+                </div>
               </div>
             </>
           )}
@@ -213,7 +215,7 @@ const ExamplesSection = ({
               <div className="flex justify-between">
                 <input type="text" className={`${inputCls} font-bold`} value={example.title} onChange={(e) => handleExampleFieldChange(idx, 'title', e.target.value)} placeholder="Document Title" />
               </div>
-              <div className="relative">
+              <div className="relative w-full overflow-hidden">
                 <RichTextEditor 
                   value={example.content} 
                   onChange={(val) => handleExampleFieldChange(idx, 'content', val)} 

@@ -44,10 +44,15 @@
     @apply border-0 border-b border-gray-200 bg-gray-50 rounded-t-lg font-sans;
   }
   .quill-wrapper .ql-container {
-    @apply border-0 min-h-[120px] text-[0.85rem] font-sans;
+    @apply border-0 min-h-[120px] text-[0.85rem] font-sans overflow-hidden;
   }
   .quill-wrapper .ql-editor {
     @apply min-h-[120px];
+    word-break: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   /* PDF Rich Text Content Styling */

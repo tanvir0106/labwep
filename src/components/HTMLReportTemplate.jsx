@@ -44,7 +44,7 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
     <div ref={ref} className="bg-white text-black font-sans leading-relaxed" style={{ width: '210mm', minHeight: '297mm', padding: '0', boxSizing: 'border-box' }}>
       
       {/* ── Title Page ── */}
-      <div className="flex flex-col items-center text-center" style={{ padding: '2.5cm 2cm 1cm 3cm', minHeight: '297mm', boxSizing: 'border-box', position: 'relative' }}>
+      <div className="flex flex-col items-center text-center" style={{ padding: '2.5cm 2cm 1cm 3cm', boxSizing: 'border-box', position: 'relative', pageBreakAfter: 'always' }}>
         <img src={gub_logo} alt="GUB Logo" style={{ width: '140px', marginBottom: '20px' }} />
         
         <h1 style={{ fontSize: '20px', fontWeight: 'bold', fontFamily: 'Helvetica, Arial, sans-serif', marginBottom: '5px' }}>
@@ -131,18 +131,18 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
           </thead>
           <tbody>
             <tr>
-              <td style={{ borderBottom: '1px solid black', borderRight: '1px solid black', padding: '6px', width: '50%', height: '40px', verticalAlign: 'top' }}>
+              <td style={{ borderBottom: '1px solid black', borderRight: '1px solid black', padding: '6px', width: '50%', height: '60px', verticalAlign: 'top' }}>
                 <span style={{ fontWeight: 'bold' }}>Marks:</span>
               </td>
-              <td style={{ borderBottom: '1px solid black', borderRight: '1px solid black', padding: '6px', width: '50%', height: '40px', verticalAlign: 'top' }}>
+              <td style={{ borderBottom: '1px solid black', borderRight: '1px solid black', padding: '6px', width: '50%', height: '60px', verticalAlign: 'top' }}>
                 <span style={{ fontWeight: 'bold' }}>Signature:</span>
               </td>
             </tr>
             <tr>
-              <td style={{ borderBottom: '1px solid black', borderRight: '1px solid black', padding: '6px', width: '50%', height: '40px', verticalAlign: 'top' }}>
+              <td style={{ borderBottom: '1px solid black', borderRight: '1px solid black', padding: '6px', width: '50%', height: '60px', verticalAlign: 'top' }}>
                 <span style={{ fontWeight: 'bold' }}>Comments:</span>
               </td>
-              <td style={{ borderBottom: '1px solid black', borderRight: '1px solid black', padding: '6px', width: '50%', height: '40px', verticalAlign: 'top' }}>
+              <td style={{ borderBottom: '1px solid black', borderRight: '1px solid black', padding: '6px', width: '50%', height: '60px', verticalAlign: 'top' }}>
                 <span style={{ fontWeight: 'bold' }}>Date:</span>
               </td>
             </tr>
@@ -150,10 +150,10 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
         </table>
       </div>
 
-      <div className="html2pdf__page-break"></div>
+
 
       {/* ── Table of Contents Page ── */}
-      <div className="flex flex-col" style={{ padding: '2.5cm 2cm 2.5cm 3cm', minHeight: '297mm', boxSizing: 'border-box', position: 'relative' }}>
+      <div className="flex flex-col" style={{ padding: '2.5cm 2cm 2.5cm 3cm', boxSizing: 'border-box', position: 'relative', pageBreakAfter: 'always' }}>
         <h2 style={{ fontSize: '18px', fontWeight: 'bold', textAlign: 'center', marginBottom: '30px', textTransform: 'uppercase', borderBottom: '2px solid #000', paddingBottom: '10px' }}>Table of Contents</h2>
         
         <div style={{ marginTop: '20px' }}>
@@ -198,7 +198,7 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
         </div>
       </div>
 
-      <div className="html2pdf__page-break"></div>
+
 
       {/* ── Content Pages ── */}
       <div style={{ padding: '2.5cm 2cm 2.5cm 3cm', boxSizing: 'border-box' }}>
@@ -208,7 +208,7 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
             <h2 style={{ fontSize: '14px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>1. Objectives</h2>
             <div 
               className="rich-text-content"
-              style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6' }}
+              style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6', wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}
               dangerouslySetInnerHTML={{ __html: data.objectives }} 
             />
           </div>
@@ -219,7 +219,7 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
             <h2 style={{ fontSize: '14px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px', marginTop: '15px' }}>2. Introduction</h2>
             <div 
               className="rich-text-content"
-              style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6' }}
+              style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6', wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}
               dangerouslySetInnerHTML={{ __html: data.introduction }} 
             />
           </div>
@@ -312,7 +312,7 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
                   <div style={{ width: '100%', marginTop: '10px' }}>
                     <div 
                       className="rich-text-content"
-                      style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6' }}
+                      style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6', wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}
                       dangerouslySetInnerHTML={{ __html: example.content }}
                     />
                   </div>
@@ -327,7 +327,7 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
             <h2 style={{ fontSize: '14px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>4. Conclusion</h2>
             <div 
               className="rich-text-content"
-              style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6' }}
+              style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6', wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}
               dangerouslySetInnerHTML={{ __html: data.conclusion }} 
             />
           </div>
