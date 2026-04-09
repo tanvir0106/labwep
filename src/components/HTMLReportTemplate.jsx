@@ -40,6 +40,51 @@ const getThemeStyles = (themeName) => {
 const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
   const parseList = (text) => text.split('\n').filter((item) => item.trim() !== '');
   
+  const renderRichText = (text) => {
+    if (!text) return '';
+    
+    // If it looks like HTML (from Quill), don't process it as plain text bullets
+    if (text.includes('<p>') || text.includes('<ul>') || text.includes('<li>') || text.includes('<strong>')) {
+      return text;
+    }
+
+    const lines = text.split('\n');
+    const hasBullets = lines.some(line => line.trim().startsWith('-'));
+    
+    if (!hasBullets) {
+      return text.replace(/\n/g, '<br>');
+    }
+
+    let result = '';
+    let inList = false;
+
+    lines.forEach((line, index) => {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('-')) {
+        if (!inList) {
+          result += '<ul style="margin: 0; padding-left: 20px; list-style-type: disc; margin-bottom: 8px;">';
+          inList = true;
+        }
+        result += `<li style="margin-bottom: 4px;">${trimmed.substring(1).trim()}</li>`;
+      } else if (trimmed === '') {
+        if (inList) {
+          result += '</ul>';
+          inList = false;
+        }
+        result += '<br>';
+      } else {
+        if (inList) {
+          result += '</ul>';
+          inList = false;
+        }
+        result += `<p style="margin: 0; margin-bottom: 8px;">${trimmed}</p>`;
+      }
+    });
+
+    if (inList) result += '</ul>';
+    return result;
+  };
+  
   return (
     <div ref={ref} className="bg-white text-black font-sans leading-relaxed" style={{ width: '210mm', minHeight: '297mm', padding: '0', boxSizing: 'border-box' }}>
       
@@ -209,7 +254,7 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
             <div 
               className="rich-text-content"
               style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6', wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}
-              dangerouslySetInnerHTML={{ __html: data.objectives }} 
+              dangerouslySetInnerHTML={{ __html: renderRichText(data.objectives) }} 
             />
           </div>
         )}
@@ -220,7 +265,7 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
             <div 
               className="rich-text-content"
               style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6', wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}
-              dangerouslySetInnerHTML={{ __html: data.introduction }} 
+              dangerouslySetInnerHTML={{ __html: renderRichText(data.introduction) }} 
             />
           </div>
         )}
@@ -249,7 +294,7 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
                       const langDisplay = langDisplayMap[example.language] || example.language;
 
                       return (
-                        <div key={bIdx} style={{ backgroundColor: themeOptions.bg, color: themeOptions.color, border: `1px solid ${themeOptions.border}`, padding: '12px', borderRadius: '4px', marginBottom: '10px', fontSize: '10px', fontFamily: '"Courier New", Courier, monospace' }}>
+                        <div key={bIdx} style={{ backgroundColor: themeOptions.bg, color: themeOptions.color, border: `1px solid ${themeOptions.border}`, padding: '12px', borderRadius: '4px', marginBottom: '10px', fontSize: '10px', fontFamily: '"Courier New", Courier, monospace', overflowX: 'hidden' }}>
                           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px', borderBottom: `1px solid ${themeOptions.border}`, paddingBottom: '6px' }}>
                             <span style={{ fontWeight: 'bold', color: themeOptions.headColor }}>{'</> '} {langDisplay}</span>
                           </div>
@@ -259,7 +304,7 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
                           <SyntaxHighlighter 
                             language={example.language} 
                             style={themeOptions.highlighter}
-                            customStyle={{ margin: 0, padding: 0, background: 'transparent', fontSize: '10px', overflowX: 'auto', whiteSpace: 'pre-wrap' }}
+                            customStyle={{ margin: 0, padding: 0, background: 'transparent', fontSize: '10px', whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}
                             wrapLongLines={true}
                           >
                             {block.code || ''}
@@ -313,7 +358,7 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
                     <div 
                       className="rich-text-content"
                       style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6', wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}
-                      dangerouslySetInnerHTML={{ __html: example.content }}
+                      dangerouslySetInnerHTML={{ __html: renderRichText(example.content) }}
                     />
                   </div>
                 )}
@@ -328,7 +373,7 @@ const HTMLReportTemplate = React.forwardRef(({ data }, ref) => {
             <div 
               className="rich-text-content"
               style={{ fontSize: '11.5px', textAlign: 'justify', lineHeight: '1.6', wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}
-              dangerouslySetInnerHTML={{ __html: data.conclusion }} 
+              dangerouslySetInnerHTML={{ __html: renderRichText(data.conclusion) }} 
             />
           </div>
         )}

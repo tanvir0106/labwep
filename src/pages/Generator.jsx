@@ -28,32 +28,32 @@ const Generator = () => {
     students: [
       { name: 'Tanvir Hassan', id: '251035007' }
     ],
-    objectives: '- To understand the concept of Stack and Queue data structures.\n- To implement Stack using Python.\n- To implement Queue using Python.',
-    introduction: 'Stack and Queue are linear data structures that follow specific ordering principles. Stack follows LIFO (Last In First Out) principle, while Queue follows FIFO (First In First Out) principle. In this lab, we will manually implement both data structures.',
+    objectives: '- To understand how LabWep simplifies the lab report generation process.\n- To explore the features of LaTeX-styled document formatting.\n- To learn how to integrate Python code snippets and dynamic data tables.',
+    introduction: 'LabWep is a specialized lab report generator designed for students to create high-quality, professional reports with ease. It combines the power of LaTeX-style aesthetics with a user-friendly interface, allowing users to focus on content while the application handles the complex layout and formatting. Whether you are documenting algorithms, data analysis, or laboratory experiments, LabWep ensures a polished and consistent output every time.',
     examples: [
       {
         type: 'code',
-        title: 'Write pseudocode for Stack and Queue.',
+        title: 'Simple Welcome Note in Python',
         language: 'python',
         theme: 'vscode-dark',
         codeBlocks: [{
-          codeTitle: 'Implementing Stack in Python',
-          code: 'class Stack:\n    def __init__(self):\n        self.items = []\n        \n    def push(self, item):\n        self.items.append(item)\n        print(f"Pushed: {item}")\n        \n    def is_empty(self):\n        return len(self.items) == 0',
+          codeTitle: 'Welcome Script',
+          code: '# A simple Python script to welcome you to LabWep\ndef welcome_message():\n    name = "User"\n    message = f"Hello {name}, Welcome to LabWep! Your professional report is ready."\n    print(message)\n\nwelcome_message()',
         }],
-        outputText: ''
+        outputText: 'Hello User, Welcome to LabWep! Your professional report is ready.'
       },
       {
         type: 'table',
-        title: 'Make your table',
-        columns: ['Col-1', 'Col-2', 'Col-3'],
+        title: 'Sample Data Table',
+        columns: ['Feature', 'Benefit', 'Status'],
         rows: [
-          ['Row-1', 'Row-2', 'Row-3'],
-          ['Row-4', 'Row-5', 'Row-6'],
-          ['Row-7', 'Row-8', 'Row-9']
+          ['LaTeX Styling', 'Professional Look', 'Active'],
+          ['Rich Text', 'Easy Formatting', 'Active'],
+          ['Code Highlighting', 'Readable Snippets', 'Active']
         ]
       }
     ],
-    conclusion: 'In this lab, we successfully implemented several Python classes to understand the core concepts. By creating classes, we learned how to define attributes and methods to model real-life objects.'
+    conclusion: 'In summary, LabWep provides a robust environment for academic documentation. By using this tool, students can ensure their lab reports are presented in a clear, organized, and professionally formatted manner, significantly enhancing the quality of their submissions.'
   });
 
   const [mobileTab, setMobileTab] = useState('form');
